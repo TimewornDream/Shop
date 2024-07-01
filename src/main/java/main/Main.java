@@ -13,7 +13,7 @@ public class Main extends Application {
         vbox.setStyle(
                 "-fx-background-color: #f5f4f5"
         );
-        vbox.getChildren().addAll(new Shop());
+        vbox.getChildren().addAll(new Shop(), new ShoppingCar());
         Scene scene = new Scene(vbox, 720, 720);
         stage.setTitle("购物车管理");
         stage.setScene(scene);
