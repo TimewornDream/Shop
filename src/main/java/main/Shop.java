@@ -12,17 +12,10 @@ import javafx.scene.text.Font;
 public class Shop extends VBox {
     Shop() {
         super();
-        HBox inputBox = new HBox();
-        inputBox.setMinSize(700, 100);
-//        inputBox.setStyle(
-////                "-fx-background-color: #000000"
-//        );
 
-        VBox shopBox = new VBox();
-        shopBox.setMinSize(700, 300);
-        shopBox.setStyle(
-                "-fx-background-color: #ffffff"
-        );
+        // 页面上部，输入部分
+        HBox inputBox = new HBox();
+        inputBox.setMinSize(700, 70);
 
         // 名称输入文本框
         TextField nameInput = new TextField();
@@ -38,9 +31,9 @@ public class Shop extends VBox {
                         "-fx-border-color: #000000;" +
                         "-fx-font-size: 16"
         );
-        TextField priceInput = new TextField();
 
         // 价格输入文本框
+        TextField priceInput = new TextField();
         priceInput.setPromptText("输入商品价格（单位/元）");
         priceInput.setStyle(
                 "-fx-min-height: 50;" +
@@ -64,14 +57,42 @@ public class Shop extends VBox {
                         "-fx-background-radius: 15;" +
                         "-fx-border-color: #000000;" +
                         "-fx-text-fill: #ffffff;" +
-                        "-fx-font-size: 16"
+                        "-fx-font-size: 16;" +
+                        "-fx-cursor: hand"
         );
 
         // 调整inputBox子组件间距和位置
         inputBox.getChildren().addAll(nameInput, priceInput, addButton);
         inputBox.setSpacing(12);
-        inputBox.setAlignment(Pos.CENTER);
+        inputBox.setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(inputBox, shopBox);
+        // 页面中部，商品展示部分
+        VBox shopBox = new VBox();
+        shopBox.setMinSize(640, 300);
+        shopBox.setMaxSize(640, 300);
+        shopBox.setStyle(
+                "-fx-background-color: #ffffff;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-radius: 15;" +
+                        "-fx-border-width: 2"
+        );
+
+        // 各部分的提示文字
+        Label label1 = new Label("商品上架");
+        label1.setMinSize(640, 48);
+        label1.setStyle(
+                "-fx-font-size: 16;" +
+                        "-fx-text-fill: #000000;"
+        );
+        Label label2 = new Label("商店");
+        label2.setMinSize(640, 48);
+        label2.setStyle(
+                "-fx-font-size: 16;" +
+                        "-fx-text-fill: #000000"
+        );
+
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(label1, inputBox, label2, shopBox);
     }
 }
