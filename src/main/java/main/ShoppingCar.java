@@ -44,6 +44,9 @@ public class ShoppingCar extends VBox {
         }
 
         shoppingCarBox.getChildren().add(labelBox);
+        for (int i = 0; i < 10; i++) {
+            shoppingCarBox.getChildren().add(new Goods("苹果", 12, 2));
+        }
 
         ScrollPane scrollPane = new ScrollPane(shoppingCarBox);
         scrollPane.setMinSize(640, 320);

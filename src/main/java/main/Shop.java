@@ -102,6 +102,9 @@ public class Shop extends VBox {
             labelBox.getChildren().add(label);
         }
         shopBox.getChildren().addAll(labelBox, new Goods("苹果", 12, 2));
+        for (int i = 0; i < 10; i++) {
+            shopBox.getChildren().add(new Goods("苹果", 12, 2));
+        }
 
         // 添加滚动条
         ScrollPane scrollPane = new ScrollPane(shopBox);
