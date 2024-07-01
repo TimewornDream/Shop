@@ -1,13 +1,11 @@
 package main;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+
+import java.util.Objects;
 
 public class Shop extends VBox {
     Shop() {
@@ -19,14 +17,13 @@ public class Shop extends VBox {
 
         // 名称输入文本框
         TextField nameInput = new TextField();
-        Font nameInputFont = Font.font("System");
         nameInput.setPromptText("输入商品名称");
         nameInput.setStyle(
                 "-fx-min-height: 50;" +
                         "-fx-min-width: 300;" +
                         "-fx-border-radius: 15;" +
                         "-fx-border-width: 2;" +
-                        "-fx-background-color: #f5f4f5;" +
+                        "-fx-background-color: #ffffff;" +
                         "-fx-background-radius: 15;" +
                         "-fx-border-color: #000000;" +
                         "-fx-font-size: 16"
@@ -40,7 +37,7 @@ public class Shop extends VBox {
                         "-fx-min-width: 150;" +
                         "-fx-border-radius: 15;" +
                         "-fx-border-width: 2;" +
-                        "-fx-background-color: #f5f4f5;" +
+                        "-fx-background-color: #ffffff;" +
                         "-fx-background-radius: 15;" +
                         "-fx-border-color: #000000;" +
                         "-fx-font-size: 16"
@@ -68,15 +65,22 @@ public class Shop extends VBox {
 
         // 页面中部，商品展示部分
         VBox shopBox = new VBox();
-        shopBox.setMinSize(640, 300);
-        shopBox.setMaxSize(640, 300);
+        shopBox.setMinSize(800, 800);
+        shopBox.setMaxSize(800, 800);
         shopBox.setStyle(
-                "-fx-background-color: #ffffff;" +
-                        "-fx-background-radius: 15;" +
-                        "-fx-border-color: #000000;" +
-                        "-fx-border-radius: 15;" +
-                        "-fx-border-width: 2"
+                "-fx-background-color: #ffffff;"
         );
+        ScrollPane scrollPane = new ScrollPane(shopBox);
+        scrollPane.setMinSize(640, 320);
+        scrollPane.setMaxSize(640, 320);
+        scrollPane.setStyle(
+                "-fx-background-color: #ffffff;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-padding: 3"
+        );
+        scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         // 各部分的提示文字
         Label label1 = new Label("商品上架");
@@ -93,6 +97,6 @@ public class Shop extends VBox {
         );
 
         setAlignment(Pos.CENTER);
-        getChildren().addAll(label1, inputBox, label2, shopBox);
+        getChildren().addAll(label1, inputBox, label2, scrollPane);
     }
 }

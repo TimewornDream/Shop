@@ -1,6 +1,7 @@
 package main;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
@@ -17,7 +18,10 @@ public class Main extends Application {
         vbox.setStyle(
                 "-fx-background-color: #f5f4f5"
         );
-        vbox.getChildren().addAll(new Shop(), new ShoppingCar());
+        Shop shop = new Shop();
+        ShoppingCar shoppingCar = new ShoppingCar();
+        vbox.getChildren().addAll(shop, shoppingCar);
+        vbox.setAlignment(Pos.TOP_CENTER);
 
         // 设置图标
         Image icon = null;
@@ -28,7 +32,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(vbox, 720, 720);
+        Scene scene = new Scene(vbox, 800, 1000);
+        scene.getRoot().requestFocus();
         stage.setTitle("购物车管理");
 
         stage.setScene(scene);
