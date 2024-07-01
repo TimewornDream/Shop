@@ -1,5 +1,6 @@
 package main;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -20,7 +21,7 @@ public class Shop extends VBox {
         nameInput.setPromptText("输入商品名称");
         nameInput.setStyle(
                 "-fx-min-height: 50;" +
-                        "-fx-min-width: 300;" +
+                        "-fx-min-width: 20;" +
                         "-fx-border-radius: 15;" +
                         "-fx-border-width: 2;" +
                         "-fx-background-color: #ffffff;" +
@@ -34,7 +35,22 @@ public class Shop extends VBox {
         priceInput.setPromptText("输入商品价格（单位/元）");
         priceInput.setStyle(
                 "-fx-min-height: 50;" +
-                        "-fx-min-width: 150;" +
+                        "-fx-min-width: 20;" +
+                        "-fx-border-radius: 15;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-background-color: #ffffff;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-font-size: 16"
+        );
+
+        // 数量输入文本框
+        TextField amountInput = new TextField();
+        amountInput.setPromptText("数量");
+        amountInput.setStyle(
+                "-fx-min-height: 50;" +
+                        "-fx-min-width: 76;" +
+                        "-fx-max-width: 76;" +
                         "-fx-border-radius: 15;" +
                         "-fx-border-width: 2;" +
                         "-fx-background-color: #ffffff;" +
@@ -59,17 +75,35 @@ public class Shop extends VBox {
         );
 
         // 调整inputBox子组件间距和位置
-        inputBox.getChildren().addAll(nameInput, priceInput, addButton);
+        inputBox.getChildren().addAll(nameInput, priceInput, amountInput, addButton);
         inputBox.setSpacing(12);
         inputBox.setAlignment(Pos.TOP_CENTER);
 
         // 页面中部，商品展示部分
         VBox shopBox = new VBox();
-        shopBox.setMinSize(800, 800);
-        shopBox.setMaxSize(800, 800);
+        shopBox.setMinSize(640, 310);
         shopBox.setStyle(
                 "-fx-background-color: #ffffff;"
         );
+
+        HBox labelBox = new HBox();
+        labelBox.setPadding(new Insets(5, 0, 0, 5));
+        Label[] labels = new Label[3];
+        labels[0] = new Label("名称");
+        labels[1] = new Label("价格（元）");
+        labels[2] = new Label("数量（个）");
+
+        for (Label label: labels) {
+            label.setStyle(
+                    "-fx-font-size: 16;" +
+                            "-fx-text-fill: #000000;" +
+                            "-fx-min-width: 120"
+            );
+            labelBox.getChildren().add(label);
+        }
+        shopBox.getChildren().addAll(labelBox, new Goods("苹果", 12, 2));
+
+        // 添加滚动条
         ScrollPane scrollPane = new ScrollPane(shopBox);
         scrollPane.setMinSize(640, 320);
         scrollPane.setMaxSize(640, 320);
