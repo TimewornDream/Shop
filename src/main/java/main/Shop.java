@@ -168,10 +168,13 @@ public class Shop extends VBox {
                 alert.getDialogPane().setStyle("-fx-font-size: 14");
                 alert.setContentText("请输入正确的数量!");
                 alert.showAndWait();
+            } else {
+                shopBox.getChildren().add(new Goods(nameInput.getText(), Double.parseDouble(priceInput.getText())
+                        , Integer.parseInt(amountInput.getText()), 0));
+                nameInput.setText(null);
+                priceInput.setText(null);
+                amountInput.setText(null);
             }
-            shopBox.getChildren().add(new Goods(nameInput.getText(), Double.parseDouble(priceInput.getText())
-                    , Integer.parseInt(amountInput.getText()), 0));
-
         });
 
         setAlignment(Pos.CENTER);

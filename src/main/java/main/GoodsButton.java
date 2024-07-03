@@ -1,6 +1,8 @@
 package main;
 
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class GoodsButton extends Button {
     private final int type;
@@ -38,6 +40,13 @@ public class GoodsButton extends Button {
                 break;
             case 2:
                 setText("删除");
+                // 移除该商品栏
+                setOnMouseClicked(e->{
+                    HBox parent = (HBox)getParent();
+                    VBox parentsParent = (VBox)parent.getParent();
+                    parentsParent.getChildren().remove(parent);
+                    parentsParent.requestFocus();
+                });
                 break;
             case 3:
                 setText("修改数量");
