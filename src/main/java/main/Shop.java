@@ -1,15 +1,21 @@
 package main;
 
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Shop extends VBox {
     Shop() {
@@ -161,7 +167,7 @@ public class Shop extends VBox {
                 alert.getDialogPane().setStyle("-fx-font-size: 14");
                 alert.setContentText("请输入正确的价格!");
                 alert.showAndWait();
-            } else if (!(isNumeric(amountInput.getText()) && Double.parseDouble(amountInput.getText()) > 0)) {
+            } else if (!isPositiveInteger(amountInput.getText())) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setHeaderText(null);
@@ -169,8 +175,25 @@ public class Shop extends VBox {
                 alert.setContentText("请输入正确的数量!");
                 alert.showAndWait();
             } else {
-                shopBox.getChildren().add(new Goods(nameInput.getText(), Double.parseDouble(priceInput.getText())
-                        , Integer.parseInt(amountInput.getText()), 0));
+                // 检查该商品是否存在，不存在则新建，存在则叠加数量
+                ObservableList<Node> allGoods = shopBox.getChildren();
+                Goods newGoods = new Goods(nameInput.getText(), Double.parseDouble(priceInput.getText())
+                        , Integer.parseInt(amountInput.getText()), 0);
+                boolean flag = true;
+                for (Node node: allGoods) {
+                    if (!(node instanceof Goods goods)) {
+                        continue;
+                    }
+                    if (Objects.equals(goods.getName(), newGoods.getName()) && goods.getPrice() == newGoods.getPrice()) {
+                        goods.setAmount(goods.getAmount() + newGoods.getAmount());
+                        goods.updateData();
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag) {
+                    shopBox.getChildren().add(newGoods);
+                }
                 nameInput.setText(null);
                 priceInput.setText(null);
                 amountInput.setText(null);
@@ -180,7 +203,14 @@ public class Shop extends VBox {
         setAlignment(Pos.CENTER);
         getChildren().addAll(label1, inputBox, label2, scrollPane);
     }
+    public static boolean isPositiveInteger(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
+    }
     public static boolean isNumeric(String str) {
-        return str != null && str.chars().allMatch(Character::isDigit);
+        Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
     }
 }

@@ -2,10 +2,13 @@ package main;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Goods extends HBox {
@@ -65,5 +68,42 @@ public class Goods extends HBox {
         setPadding(new Insets(5, 0, 5, 5));
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(20);
+    }
+
+    public void updateData() {
+        HBox labelBox = (HBox) getChildren().get(0);
+        List<Label> labels = new ArrayList<>();
+        for (Node node: labelBox.getChildren()) {
+            if(node instanceof Label label) {
+                labels.add(label);
+            }
+        }
+        labels.get(0).setText(name);
+        labels.get(1).setText(String.format("%.2f", price));
+        labels.get(2).setText(String.format("%d", amount));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
