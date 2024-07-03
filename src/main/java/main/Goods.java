@@ -6,11 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import java.util.Objects;
+
 public class Goods extends HBox {
     private String name;
     private double price;
     private int amount;
-    Goods(String name, double price, int amount) {
+    Goods(String name, double price, int amount, int type) {
         // 初始化数据域
         this.name = name;
         this.price = price;
@@ -34,30 +36,33 @@ public class Goods extends HBox {
         }
 
         // 按钮
-        Button purchaseButton = new Button("购买");
-        setButtonStyle(purchaseButton);
-        Button modifyButton = new Button("修改");
-        setButtonStyle(modifyButton);
-        Button deleteButton = new Button("删除");
-        setButtonStyle(deleteButton);
+        if (type == 0) {
+            GoodsButton purchaseButton = new GoodsButton(0);
+            GoodsButton modifyButton = new GoodsButton(1);
+            GoodsButton deleteButton = new GoodsButton(2);
+            getChildren().addAll(labelBox, purchaseButton, modifyButton, deleteButton);
+        } else {
+            GoodsButton modifyButton = new GoodsButton(3);
+            GoodsButton deleteButton = new GoodsButton(2);
+            getChildren().addAll(labelBox, modifyButton, deleteButton);
+        }
+
+        // hang over 样式
+        setOnMouseEntered(e->{
+            setStyle(
+                    "-fx-background-color: #e7e7e7"
+            );
+        });
+
+        setOnMouseExited(e->{
+            setStyle(
+                    "-fx-background-color: #ffffff"
+            );
+        });
 
         setMinHeight(50);
-        setPadding(new Insets(10, 0, 0, 5));
-        getChildren().addAll(labelBox, purchaseButton, modifyButton, deleteButton);
+        setPadding(new Insets(5, 0, 5, 5));
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(20);
-    }
-    private static void setButtonStyle (Button button) {
-        button.setStyle(
-                "-fx-min-height: 24;" +
-                        "-fx-border-radius: 8;" +
-                        "-fx-border-width: 2;" +
-                        "-fx-background-color: #4777d1;" +
-                        "-fx-background-radius: 8;" +
-                        "-fx-border-color: #000000;" +
-                        "-fx-text-fill: #ffffff;" +
-                        "-fx-font-size: 16;" +
-                        "-fx-cursor: hand"
-        );
     }
 }

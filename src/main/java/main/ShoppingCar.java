@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import java.util.Objects;
 
 public class ShoppingCar extends VBox {
+    private int totalPrice = 0;
     ShoppingCar(){
         super();
 
@@ -45,7 +46,7 @@ public class ShoppingCar extends VBox {
 
         shoppingCarBox.getChildren().add(labelBox);
         for (int i = 0; i < 10; i++) {
-            shoppingCarBox.getChildren().add(new Goods("苹果", 12, 2));
+            shoppingCarBox.getChildren().add(new Goods("苹果", 12, 2, 1));
         }
 
         ScrollPane scrollPane = new ScrollPane(shoppingCarBox);
@@ -57,10 +58,18 @@ public class ShoppingCar extends VBox {
                         "-fx-border-width: 2;" +
                         "-fx-padding: 3"
         );
-        scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+        scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
 
         getChildren().addAll(new Label(), labelTop, scrollPane);
         setAlignment(Pos.TOP_CENTER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

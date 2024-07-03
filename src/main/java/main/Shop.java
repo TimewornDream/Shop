@@ -1,8 +1,11 @@
 package main;
 
+import javafx.css.PseudoClass;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -74,6 +77,13 @@ public class Shop extends VBox {
                         "-fx-cursor: hand"
         );
 
+        addButton.setOnMouseEntered(e->{
+            addButton.setOpacity(0.8);
+        });
+        addButton.setOnMouseExited(e->{
+            addButton.setOpacity(1.2);
+        });
+
         // 调整inputBox子组件间距和位置
         inputBox.getChildren().addAll(nameInput, priceInput, amountInput, addButton);
         inputBox.setSpacing(12);
@@ -101,9 +111,9 @@ public class Shop extends VBox {
             );
             labelBox.getChildren().add(label);
         }
-        shopBox.getChildren().addAll(labelBox, new Goods("苹果", 12, 2));
+        shopBox.getChildren().addAll(labelBox, new Goods("苹果", 12, 2, 0));
         for (int i = 0; i < 10; i++) {
-            shopBox.getChildren().add(new Goods("苹果", 12, 2));
+            shopBox.getChildren().add(new Goods("苹果", 12, 2, 0));
         }
 
         // 添加滚动条
@@ -116,7 +126,7 @@ public class Shop extends VBox {
                         "-fx-border-width: 2;" +
                         "-fx-padding: 3"
         );
-        scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+        scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         // 各部分的提示文字
