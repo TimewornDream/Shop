@@ -28,6 +28,7 @@ public class ShoppingCar extends VBox {
         shoppingCarBox.setStyle(
                 "-fx-background-color: #ffffff"
         );
+
         HBox labelBox = new HBox();
         labelBox.setPadding(new Insets(5, 0, 0, 5));
         Label[] labels = new Label[3];

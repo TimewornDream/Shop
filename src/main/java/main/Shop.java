@@ -143,7 +143,41 @@ public class Shop extends VBox {
                         "-fx-text-fill: #000000"
         );
 
+
+        // 添加商品按钮点击事件
+        addButton.setOnMouseClicked(e->{
+            // 检查输入是否异常
+            if (isNumeric(nameInput.getText())) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setHeaderText(null);
+                alert.getDialogPane().setStyle("-fx-font-size: 14");
+                alert.setContentText("请输入正确的名称!");
+                alert.showAndWait();
+            } else if (!(isNumeric(priceInput.getText()) && Double.parseDouble(priceInput.getText()) >= 0)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setHeaderText(null);
+                alert.getDialogPane().setStyle("-fx-font-size: 14");
+                alert.setContentText("请输入正确的价格!");
+                alert.showAndWait();
+            } else if (!(isNumeric(amountInput.getText()) && Double.parseDouble(amountInput.getText()) > 0)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("提示");
+                alert.setHeaderText(null);
+                alert.getDialogPane().setStyle("-fx-font-size: 14");
+                alert.setContentText("请输入正确的数量!");
+                alert.showAndWait();
+            }
+            shopBox.getChildren().add(new Goods(nameInput.getText(), Double.parseDouble(priceInput.getText())
+                    , Integer.parseInt(amountInput.getText()), 0));
+
+        });
+
         setAlignment(Pos.CENTER);
         getChildren().addAll(label1, inputBox, label2, scrollPane);
+    }
+    public static boolean isNumeric(String str) {
+        return str != null && str.chars().allMatch(Character::isDigit);
     }
 }

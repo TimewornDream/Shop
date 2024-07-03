@@ -35,18 +35,6 @@ public class Goods extends HBox {
             label.setAlignment(Pos.CENTER_LEFT);
         }
 
-        // 按钮
-        if (type == 0) {
-            GoodsButton purchaseButton = new GoodsButton(0);
-            GoodsButton modifyButton = new GoodsButton(1);
-            GoodsButton deleteButton = new GoodsButton(2);
-            getChildren().addAll(labelBox, purchaseButton, modifyButton, deleteButton);
-        } else {
-            GoodsButton modifyButton = new GoodsButton(3);
-            GoodsButton deleteButton = new GoodsButton(2);
-            getChildren().addAll(labelBox, modifyButton, deleteButton);
-        }
-
         // hang over 样式
         setOnMouseEntered(e->{
             setStyle(
@@ -60,6 +48,19 @@ public class Goods extends HBox {
             );
         });
 
+        // 按钮
+        if (type == 0) {
+            GoodsButton purchaseButton = new GoodsButton(0);
+            GoodsButton modifyButton = new GoodsButton(1);
+            GoodsButton deleteButton = new GoodsButton(2);
+            getChildren().addAll(labelBox, purchaseButton, modifyButton, deleteButton);
+        } else {
+            GoodsButton modifyButton = new GoodsButton(3);
+            GoodsButton deleteButton = new GoodsButton(2);
+            getChildren().addAll(labelBox, modifyButton, deleteButton);
+        }
+
+        // 调整间距和位置
         setMinHeight(50);
         setPadding(new Insets(5, 0, 5, 5));
         setAlignment(Pos.CENTER_LEFT);
