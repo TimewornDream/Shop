@@ -1,8 +1,12 @@
 package main;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.Objects;
 
 public class GoodsButton extends Button {
     private final int type;
@@ -34,6 +38,40 @@ public class GoodsButton extends Button {
         switch (type) {
             case 0:
                 setText("购买");
+                setOnMouseClicked(e->{
+                    Goods goods = (Goods) getParent();
+                    // 获取 shoppingCarBox
+                    VBox root = (VBox) getScene().getRoot();
+                    ScrollPane scrollPane = (ScrollPane) (((ShoppingCar) root.getChildren().get(1)).getChildren()).get(2);
+                    VBox shoppingCarBox = (VBox) scrollPane.getContent();
+                    // 检查该商品是否已存在
+                    boolean flag = true;
+                    for (Node node: shoppingCarBox.getChildren()) {
+                        if (!(node instanceof Goods shoppingCarGoods)) {
+                            continue;
+                        }
+                        if (Objects.equals(shoppingCarGoods.getName(), goods.getName()) && shoppingCarGoods.getPrice() == goods.getPrice()) {
+                            shoppingCarGoods.setAmount(shoppingCarGoods.getAmount() + 1);
+                            shoppingCarGoods.updateData();
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag) {
+                        shoppingCarBox.getChildren().add(new Goods(goods.getName(), goods.getPrice(), 1, 1));
+                    }
+
+                    // 商店数量--
+                    goods.setAmount(goods.getAmount() - 1);
+                    goods.updateData();
+                    // 若数量为0，则删除
+                    if(goods.getAmount() == 0) {
+                        HBox parent = (HBox)getParent();
+                        VBox parentsParent = (VBox)parent.getParent();
+                        parentsParent.getChildren().remove(parent);
+                        parentsParent.requestFocus();
+                    }
+                });
                 break;
             case 1:
                 setText("修改");
