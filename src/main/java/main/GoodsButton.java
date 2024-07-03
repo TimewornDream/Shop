@@ -71,6 +71,9 @@ public class GoodsButton extends Button {
                         parentsParent.getChildren().remove(parent);
                         parentsParent.requestFocus();
                     }
+                    ShoppingCar shoppingCar = ((ShoppingCar) root.getChildren().get(1));
+                    shoppingCar.setTotalPrice(shoppingCar.getTotalPrice() + goods.getPrice());
+                    shoppingCar.updateTotalPrice();
                 });
                 break;
             case 1:

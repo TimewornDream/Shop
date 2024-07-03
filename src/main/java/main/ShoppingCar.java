@@ -10,12 +10,12 @@ import javafx.scene.layout.VBox;
 import java.util.Objects;
 
 public class ShoppingCar extends VBox {
-    private int totalPrice = 0;
+    private double totalPrice = 0;
     ShoppingCar(){
         super();
 
         // 购物车顶部文字
-        Label labelTop = new Label("购物车");
+        Label labelTop = new Label(String.format("购物车   总价：%.2f元", totalPrice));
         labelTop.setMinSize(640, 48);
         labelTop.setStyle(
                 "-fx-font-size: 16;" +
@@ -66,11 +66,16 @@ public class ShoppingCar extends VBox {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void updateTotalPrice() {
+        Label labelTop = (Label) getChildren().get(1);
+        labelTop.setText(String.format("购物车   总价：%.2f元", totalPrice));
     }
 }
