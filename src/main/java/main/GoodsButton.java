@@ -103,7 +103,7 @@ public class GoodsButton extends Button {
 
                         // 如果没有找到相同的商品，则添加到goodsToAdd列表
                         if (!found) {
-                            goodsToAdd.add(new Goods(goods.getName(), goods.getType(), goods.getAmount(), 0));
+                            goodsToAdd.add(new Goods(goods.getName(), goods.getPrice(), goods.getAmount(), 0));
                         }
 
                         // 循环结束后，添加所有需要添加的商品

@@ -144,7 +144,7 @@ public class Shop extends VBox {
         // 添加商品按钮点击事件
         addButton.setOnMouseClicked(e->{
             // 检查输入是否异常
-            if (Objects.equals(nameInput.getText(), "") || isNumeric(nameInput.getText())) {
+            if (Objects.equals(nameInput.getText(), "") || nameInput.getText() == null || isNumeric(nameInput.getText())) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("提示");
                 alert.setHeaderText(null);
