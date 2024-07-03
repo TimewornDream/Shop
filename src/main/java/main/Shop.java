@@ -8,9 +8,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.google.gson.Gson;
 
 public class Shop extends VBox {
     Shop() {
@@ -193,6 +201,7 @@ public class Shop extends VBox {
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(label1, inputBox, label2, scrollPane);
+        saveData();
     }
     public static boolean isPositiveInteger(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
@@ -203,5 +212,43 @@ public class Shop extends VBox {
         Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]*");
         Matcher isNum = pattern.matcher(str);
         return isNum.matches();
+    }
+
+    public void saveData() {
+        Gson gson = new Gson();
+        List<GoodsData> goodsList = new ArrayList<>();
+
+        ScrollPane scrollPane = (ScrollPane) getChildren().get(3);
+        VBox shopBox = (VBox) scrollPane.getContent();
+        for (Node node: shopBox.getChildren()) {
+            if (node instanceof Goods goods) {
+                goodsList.add(new GoodsData(goods.getName(), goods.getPrice(), goods.getAmount()));
+            }
+        }
+
+
+        Path path = Paths.get("data", "shop_data.json");
+        try {
+            Files.createDirectories(path.getParent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        GoodsDataWrapper wrapper = new GoodsDataWrapper();
+        wrapper.data = goodsList;
+
+
+        try (FileWriter writer = new FileWriter(path.toFile())) {
+            // 序列化List<GoodsData>为JSON字符串
+            String json = gson.toJson(wrapper);
+
+            // 写入JSON字符串到文件
+            writer.write(json);
+
+            System.out.println("Successfully wrote JSON object to file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

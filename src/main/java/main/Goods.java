@@ -13,7 +13,7 @@ public class Goods extends HBox {
     private String name;
     private double price;
     private int amount;
-    private final int type;
+    private int type;
     Goods(String name, double price, int amount, int type) {
         // 初始化数据域
         this.name = name;
@@ -105,5 +105,9 @@ public class Goods extends HBox {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
