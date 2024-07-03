@@ -3,23 +3,23 @@ package main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Goods extends HBox {
     private String name;
     private double price;
     private int amount;
+    private final int type;
     Goods(String name, double price, int amount, int type) {
         // 初始化数据域
         this.name = name;
         this.price = price;
         this.amount = amount;
+        this.type = type;
 
         // 构建样式
         HBox labelBox = new HBox();
@@ -39,17 +39,13 @@ public class Goods extends HBox {
         }
 
         // hang over 样式
-        setOnMouseEntered(e->{
-            setStyle(
-                    "-fx-background-color: #e7e7e7"
-            );
-        });
+        setOnMouseEntered(e-> setStyle(
+                "-fx-background-color: #e7e7e7"
+        ));
 
-        setOnMouseExited(e->{
-            setStyle(
-                    "-fx-background-color: #ffffff"
-            );
-        });
+        setOnMouseExited(e-> setStyle(
+                "-fx-background-color: #ffffff"
+        ));
 
         // 按钮
         if (type == 0) {
@@ -93,6 +89,10 @@ public class Goods extends HBox {
 
     public int getAmount() {
         return amount;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public void setName(String name) {

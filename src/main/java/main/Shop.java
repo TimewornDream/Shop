@@ -1,18 +1,13 @@
 package main;
 
 import javafx.collections.ObservableList;
-import javafx.css.PseudoClass;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,12 +78,8 @@ public class Shop extends VBox {
                         "-fx-cursor: hand"
         );
 
-        addButton.setOnMouseEntered(e->{
-            addButton.setOpacity(0.8);
-        });
-        addButton.setOnMouseExited(e->{
-            addButton.setOpacity(1.2);
-        });
+        addButton.setOnMouseEntered(e-> addButton.setOpacity(0.8));
+        addButton.setOnMouseExited(e-> addButton.setOpacity(1.2));
 
         // 调整inputBox子组件间距和位置
         inputBox.getChildren().addAll(nameInput, priceInput, amountInput, addButton);
