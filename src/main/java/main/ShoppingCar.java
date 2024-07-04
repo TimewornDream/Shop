@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -67,7 +68,37 @@ public class ShoppingCar extends VBox {
         );
         scrollPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
 
-        getChildren().addAll(new Label(), labelTop, scrollPane);
+        // 清空购物车按钮
+        Button clearButton = new Button("清空购物车");
+        clearButton.setStyle(
+                "-fx-min-height: 50;" +
+                        "-fx-min-width: 50;" +
+                        "-fx-border-radius: 15;" +
+                        "-fx-border-width: 2;" +
+                        "-fx-background-color: #4777d1;" +
+                        "-fx-background-radius: 15;" +
+                        "-fx-border-color: #000000;" +
+                        "-fx-text-fill: #ffffff;" +
+                        "-fx-font-size: 16;" +
+                        "-fx-cursor: hand;"
+        );
+        clearButton.setOnMouseEntered(e-> clearButton.setOpacity(0.8));
+        clearButton.setOnMouseExited(e-> clearButton.setOpacity(1.2));
+        clearButton.setOnMouseClicked(e->{
+            List<Goods> goodsList = new ArrayList<>();
+            for (Node node: shoppingCarBox.getChildren()) {
+                if (node instanceof Goods goods) {
+                    goodsList.add(goods);
+                }
+            }
+            for (Goods goods: goodsList) {
+                GoodsButton goodsButton = (GoodsButton) goods.getChildren().get(2);
+                goodsButton.removeShoppingCarGoods();
+            }
+        });
+        clearButton.setTranslateY(20);
+
+        getChildren().addAll(new Label(), labelTop, scrollPane, clearButton);
         setAlignment(Pos.TOP_CENTER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
