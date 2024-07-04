@@ -39,6 +39,7 @@ public class Main extends Application {
         // 关闭事件
         stage.setOnCloseRequest(e->{
             shop.saveData();
+            shoppingCar.saveData();
         });
 
         stage.setScene(scene);

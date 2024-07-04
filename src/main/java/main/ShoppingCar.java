@@ -1,12 +1,21 @@
 package main;
 
+import com.google.gson.Gson;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ShoppingCar extends VBox {
@@ -46,9 +55,6 @@ public class ShoppingCar extends VBox {
         }
 
         shoppingCarBox.getChildren().add(labelBox);
-        for (int i = 0; i < 10; i++) {
-            shoppingCarBox.getChildren().add(new Goods("苹果", 12, 2, 1));
-        }
 
         ScrollPane scrollPane = new ScrollPane(shoppingCarBox);
         scrollPane.setMinSize(640, 320);
@@ -64,6 +70,10 @@ public class ShoppingCar extends VBox {
         getChildren().addAll(new Label(), labelTop, scrollPane);
         setAlignment(Pos.TOP_CENTER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        // 加载数据
+        loadData();
+        initTotalPrice();
     }
 
     public double getTotalPrice() {
@@ -77,5 +87,80 @@ public class ShoppingCar extends VBox {
     public void updateTotalPrice() {
         Label labelTop = (Label) getChildren().get(1);
         labelTop.setText(String.format("购物车   总价：%.2f元", totalPrice));
+    }
+
+    public void saveData() {
+        Gson gson = new Gson();
+        List<GoodsData> goodsList = new ArrayList<>();
+
+        ScrollPane scrollPane = (ScrollPane) getChildren().get(2);
+        VBox shoppingCarBox = (VBox) scrollPane.getContent();
+        for (Node node: shoppingCarBox.getChildren()) {
+            if (node instanceof Goods goods) {
+                goodsList.add(new GoodsData(goods.getName(), goods.getPrice(), goods.getAmount()));
+            }
+        }
+
+        Path path = Paths.get("data", "shopping_car_data.json");
+
+        GoodsDataWrapper wrapper = new GoodsDataWrapper();
+        wrapper.data = goodsList;
+
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(String.valueOf(path)),
+                        StandardCharsets.UTF_8))) {
+
+            // 序列化List<GoodsData>为JSON字符串
+            String json = gson.toJson(wrapper);
+
+            // 写入JSON字符串到文件
+            writer.write(json);
+
+            System.out.println("SHOPPING_CAR: Successfully wrote JSON object to file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadData(){
+        Path path = Paths.get("data", "shopping_car_data.json");
+        Gson gson = new Gson();
+        ScrollPane scrollPane = (ScrollPane) getChildren().get(2);
+        VBox shoppingCarBox = (VBox) scrollPane.getContent();
+
+        try {
+            Files.createDirectories(path.getParent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(path), StandardCharsets.UTF_8))) {
+            StringBuilder jsonString = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonString.append(line);
+            }
+
+            GoodsDataWrapper wrapper = gson.fromJson(jsonString.toString(), GoodsDataWrapper.class);
+            for (GoodsData goodsData: wrapper.data) {
+                shoppingCarBox.getChildren().add(new Goods(goodsData.getName(), goodsData.getPrice(), goodsData.getAmount(), 1));
+            }
+
+            System.out.println("SHOPPING_CAR: Successfully load JSON object from file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void initTotalPrice() {
+        ScrollPane scrollPane = (ScrollPane) getChildren().get(2);
+        VBox shoppingCarBox = (VBox) scrollPane.getContent();
+        for (Node node: shoppingCarBox.getChildren()) {
+            if (node instanceof Goods goods) {
+                totalPrice += goods.getPrice() * goods.getAmount();
+            }
+        }
     }
 }

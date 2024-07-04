@@ -117,6 +117,8 @@ public class Shop extends VBox {
             labelBox.getChildren().add(label);
         }
 
+        shopBox.getChildren().add(labelBox);
+
         // 添加滚动条
         ScrollPane scrollPane = new ScrollPane(shopBox);
         scrollPane.setMinSize(640, 320);
@@ -241,7 +243,7 @@ public class Shop extends VBox {
             // 写入JSON字符串到文件
             writer.write(json);
 
-            System.out.println("Successfully wrote JSON object to file.");
+            System.out.println("SHOP: Successfully wrote JSON object to file.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -270,7 +272,7 @@ public class Shop extends VBox {
                 shopBox.getChildren().add(new Goods(goodsData.getName(), goodsData.getPrice(), goodsData.getAmount(), 0));
             }
 
-            System.out.println("Successfully load JSON object from file.");
+            System.out.println("SHOP: Successfully load JSON object from file.");
         } catch (IOException e) {
             e.printStackTrace();
         }
