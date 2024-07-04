@@ -85,6 +85,9 @@ public class ShoppingCar extends VBox {
     }
 
     public void updateTotalPrice() {
+        if(totalPrice < 0) {
+            totalPrice = 0 - totalPrice;
+        }
         Label labelTop = (Label) getChildren().get(1);
         labelTop.setText(String.format("购物车   总价：%.2f元", totalPrice));
     }
@@ -157,10 +160,12 @@ public class ShoppingCar extends VBox {
     public void initTotalPrice() {
         ScrollPane scrollPane = (ScrollPane) getChildren().get(2);
         VBox shoppingCarBox = (VBox) scrollPane.getContent();
+        totalPrice = 0;
         for (Node node: shoppingCarBox.getChildren()) {
             if (node instanceof Goods goods) {
                 totalPrice += goods.getPrice() * goods.getAmount();
             }
         }
+        updateTotalPrice();
     }
 }

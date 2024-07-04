@@ -206,7 +206,15 @@ public class GoodsButton extends Button {
                                 }
                             }
                             int newAmount = Integer.parseInt(parameter.getText());
-                            if (matchedGoods != null && newAmount - goods.getAmount() < matchedGoods.getAmount()) {
+                            if(newAmount < 0){
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("提示");
+                                alert.setHeaderText(null);
+                                alert.getDialogPane().setStyle("-fx-font-size: 14");
+                                alert.setContentText("请输入合适的数量!");
+                                alert.showAndWait();
+                                return null;
+                            } else if (matchedGoods != null && newAmount - goods.getAmount() < matchedGoods.getAmount()) {
                                 matchedGoods.setAmount(matchedGoods.getAmount() - newAmount + goods.getAmount());
                             } else if (matchedGoods != null && newAmount - goods.getAmount() == matchedGoods.getAmount()) {
                                 shopBox.getChildren().remove(matchedGoods);
@@ -214,7 +222,6 @@ public class GoodsButton extends Button {
                                 shopBox.getChildren().add(new Goods(goods.getName(), goods.getPrice()
                                         , goods.getAmount() - newAmount, 0));
                             } else if (matchedGoods != null && newAmount - goods.getAmount() > matchedGoods.getAmount()) {
-                                newAmount = matchedGoods.getAmount() + goods.getAmount();
                                 shopBox.getChildren().remove(matchedGoods);
                             } else {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -226,10 +233,12 @@ public class GoodsButton extends Button {
                                 return null;
                             }
 
-                            shoppingCar.setTotalPrice(shoppingCar.getTotalPrice() + (newAmount - goods.getAmount())*goods.getPrice());
-                            goods.setAmount(newAmount);
-                            goods.updateData();
-                            shoppingCar.updateTotalPrice();
+                            if (newAmount == 0){
+                                VBox shoppingCarBox =  (VBox)(goods.getParent());
+                                shoppingCarBox.getChildren().remove(goods);
+                            }
+
+                            shoppingCar.initTotalPrice();
                             if (matchedGoods != null) {
                                 matchedGoods.updateData();
                             }
