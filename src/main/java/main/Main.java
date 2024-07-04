@@ -36,6 +36,11 @@ public class Main extends Application {
         scene.getRoot().requestFocus();
         stage.setTitle("购物车管理");
 
+        // 关闭事件
+        stage.setOnCloseRequest(e->{
+            shop.saveData();
+        });
+
         stage.setScene(scene);
         stage.getIcons().add(icon);
         stage.show();

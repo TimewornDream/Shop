@@ -8,8 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -116,10 +116,6 @@ public class Shop extends VBox {
             );
             labelBox.getChildren().add(label);
         }
-        shopBox.getChildren().addAll(labelBox, new Goods("苹果", 12, 2, 0));
-        for (int i = 0; i < 10; i++) {
-            shopBox.getChildren().add(new Goods("苹果", 12, 2, 0));
-        }
 
         // 添加滚动条
         ScrollPane scrollPane = new ScrollPane(shopBox);
@@ -201,7 +197,9 @@ public class Shop extends VBox {
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(label1, inputBox, label2, scrollPane);
-        saveData();
+
+        // 加载数据
+        loadData();
     }
     public static boolean isPositiveInteger(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
@@ -226,19 +224,17 @@ public class Shop extends VBox {
             }
         }
 
-
         Path path = Paths.get("data", "shop_data.json");
-        try {
-            Files.createDirectories(path.getParent());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         GoodsDataWrapper wrapper = new GoodsDataWrapper();
         wrapper.data = goodsList;
 
 
-        try (FileWriter writer = new FileWriter(path.toFile())) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(String.valueOf(path)),
+                        StandardCharsets.UTF_8))) {
+
             // 序列化List<GoodsData>为JSON字符串
             String json = gson.toJson(wrapper);
 
@@ -249,6 +245,34 @@ public class Shop extends VBox {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void loadData(){
+        Path path = Paths.get("data", "shop_data.json");
+        Gson gson = new Gson();
+        ScrollPane scrollPane = (ScrollPane) getChildren().get(3);
+        VBox shopBox = (VBox) scrollPane.getContent();
 
+        try {
+            Files.createDirectories(path.getParent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(path), StandardCharsets.UTF_8))) {
+            StringBuilder jsonString = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonString.append(line);
+            }
+
+            GoodsDataWrapper wrapper = gson.fromJson(jsonString.toString(), GoodsDataWrapper.class);
+            for (GoodsData goodsData: wrapper.data) {
+                shopBox.getChildren().add(new Goods(goodsData.getName(), goodsData.getPrice(), goodsData.getAmount(), 0));
+            }
+
+            System.out.println("Successfully load JSON object from file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
