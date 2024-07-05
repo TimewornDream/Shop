@@ -181,6 +181,7 @@ public class GoodsButton extends Button {
                                         , goods.getAmount() - newAmount, 0));
                             } else if (matchedGoods != null && newAmount - goods.getAmount() > matchedGoods.getAmount()) {
                                 shopBox.getChildren().remove(matchedGoods);
+                                newAmount = goods.getAmount() + matchedGoods.getAmount();
                             } else {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("提示");
@@ -195,6 +196,9 @@ public class GoodsButton extends Button {
                                 VBox shoppingCarBox =  (VBox)(goods.getParent());
                                 shoppingCarBox.getChildren().remove(goods);
                             }
+
+                            goods.setAmount(newAmount);
+                            goods.updateData();
 
                             shoppingCar.initTotalPrice();
                             if (matchedGoods != null) {

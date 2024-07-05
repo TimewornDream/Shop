@@ -107,7 +107,4 @@ public class Goods extends HBox {
         this.amount = amount;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 }

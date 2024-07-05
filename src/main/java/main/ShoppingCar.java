@@ -34,7 +34,7 @@ public class ShoppingCar extends VBox {
 
         // 购物车
         VBox shoppingCarBox = new VBox();
-        shoppingCarBox.setMinSize(640, 310);
+        shoppingCarBox.setMinSize(640, 250);
         shoppingCarBox.setStyle(
                 "-fx-background-color: #ffffff"
         );
@@ -58,8 +58,8 @@ public class ShoppingCar extends VBox {
         shoppingCarBox.getChildren().add(labelBox);
 
         ScrollPane scrollPane = new ScrollPane(shoppingCarBox);
-        scrollPane.setMinSize(640, 320);
-        scrollPane.setMaxSize(640, 320);
+        scrollPane.setMinSize(640, 250);
+        scrollPane.setMaxSize(640, 250);
         scrollPane.setStyle(
                 "-fx-background-color: #ffffff;" +
                         "-fx-border-color: #000000;" +

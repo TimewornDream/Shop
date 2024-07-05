@@ -32,7 +32,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(vbox, 800, 1000);
+        Scene scene = new Scene(vbox, 800, 850);
         scene.getRoot().requestFocus();
         stage.setTitle("购物车管理");
 

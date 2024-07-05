@@ -121,8 +121,8 @@ public class Shop extends VBox {
 
         // 添加滚动条
         ScrollPane scrollPane = new ScrollPane(shopBox);
-        scrollPane.setMinSize(640, 320);
-        scrollPane.setMaxSize(640, 320);
+        scrollPane.setMinSize(640, 250);
+        scrollPane.setMaxSize(640, 250);
         scrollPane.setStyle(
                 "-fx-background-color: #ffffff;" +
                         "-fx-border-color: #000000;" +
